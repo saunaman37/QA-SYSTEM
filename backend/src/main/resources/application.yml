@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: qa-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/qa?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Tokyo
+    username: qa_user
+    password: qa_pass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

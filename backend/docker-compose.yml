@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: qa-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: qa
+      MYSQL_USER: qa_user
+      MYSQL_PASSWORD: qa_pass
+      TZ: Asia/Tokyo
+    ports:
+      - '3306:3306'
+    command:
+      [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_0900_ai_ci',
+      ]
+    volumes:
+      - qa_mysql_data:/var/lib/mysql
+
+volumes:
+  qa_mysql_data:
