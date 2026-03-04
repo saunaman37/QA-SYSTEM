@@ -1,4 +1,4 @@
-package com.example.qa_backend;
+package com.example.qabackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

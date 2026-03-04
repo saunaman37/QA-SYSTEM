@@ -1,4 +1,4 @@
-package com.example.qa_backend;
+package com.example.qabackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

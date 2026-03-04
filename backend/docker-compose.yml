@@ -4,9 +4,9 @@ services:
     container_name: qa-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: qa
-      MYSQL_USER: qa_user
-      MYSQL_PASSWORD: qa_pass
+      MYSQL_DATABASE: qadb
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+      MYSQL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       TZ: Asia/Tokyo
     ports:
       - '3306:3306'
