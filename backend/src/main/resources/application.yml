@@ -3,14 +3,19 @@ spring:
     name: qa-backend
 
   datasource:
-    url: jdbc:mysql://localhost:3306/qa?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Tokyo
-    username: qa_user
-    password: qa_pass
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/qa?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Tokyo}
+    username: ${SPRING_DATASOURCE_USERNAME:qa_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:qa_pass}
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
+
+server:
+  error:
+    include-stacktrace: never
