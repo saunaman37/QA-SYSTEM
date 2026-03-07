@@ -4,6 +4,7 @@ import com.example.qabackend.dto.AnswerResponse;
 import com.example.qabackend.dto.QuestionDetailResponse;
 import com.example.qabackend.dto.QuestionRequest;
 import com.example.qabackend.dto.QuestionResponse;
+import com.example.qabackend.entity.Answer;
 import com.example.qabackend.entity.Question;
 import com.example.qabackend.entity.QuestionStatus;
 import com.example.qabackend.exception.BusinessException;
@@ -83,20 +84,21 @@ public class QuestionService {
         return new QuestionResponse(saved);
     }
 
+    @Transactional
     public void deleteQuestion(Long id) {
         Question question = questionRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new ResourceNotFoundException("質問が見つかりません。id=" + id));
 
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"));
 
-        answerRepository.findByQuestionIdAndDeletedAtIsNullOrderByCreatedAtAsc(id)
-                .forEach(answer -> {
-                    answer.setDeletedAt(now);
-                    answerRepository.save(answer);
-                });
-
         question.setDeletedAt(now);
         questionRepository.save(question);
+
+        List<Answer> answers = answerRepository.findByQuestionIdAndDeletedAtIsNullOrderByCreatedAtAsc(id);
+        for (Answer answer : answers) {
+            answer.setDeletedAt(now);
+        }
+        answerRepository.saveAll(answers);
     }
 
     private Sort resolveSort(String sort) {
