@@ -79,7 +79,8 @@ public class QuestionService {
         question.setTitle(req.getTitle());
         question.setContent(req.getContent());
         question.setQuestioner(req.getQuestioner());
-        return new QuestionResponse(questionRepository.save(question));
+        Question saved = questionRepository.saveAndFlush(question);
+        return new QuestionResponse(saved);
     }
 
     public void deleteQuestion(Long id) {
