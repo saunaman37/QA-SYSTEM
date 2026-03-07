@@ -3,9 +3,10 @@ type Props = {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  deleting?: boolean;
 };
 
-export default function DeleteConfirmDialog({ isOpen, message, onConfirm, onCancel }: Props) {
+export default function DeleteConfirmDialog({ isOpen, message, onConfirm, onCancel, deleting = false }: Props) {
   if (!isOpen) return null;
 
   return (
@@ -13,8 +14,8 @@ export default function DeleteConfirmDialog({ isOpen, message, onConfirm, onCanc
       <div style={dialogStyle}>
         <p>{message}</p>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '1rem' }}>
-          <button onClick={onCancel}>キャンセル</button>
-          <button onClick={onConfirm}>削除する</button>
+          <button onClick={onCancel} disabled={deleting}>キャンセル</button>
+          <button onClick={onConfirm} disabled={deleting}>削除する</button>
         </div>
       </div>
     </div>
