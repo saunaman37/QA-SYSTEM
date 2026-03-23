@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getQuestions } from '../api/questions';
 import type { QuestionSummary, SortOrder } from '../types';
 import ErrorMessage from '../components/ErrorMessage';
+import AppHeader from '../components/AppHeader';
+import StatusBadge from '../components/StatusBadge';
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -50,57 +52,88 @@ export default function UnansweredListPage() {
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '2rem auto' }}>
-      <h1>回答対象一覧</h1>
-      {error && <ErrorMessage message={error} />}
-      <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <input
-          type="text"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder="キーワード"
-        />
-        <select value={sort} onChange={(e) => setSort(e.target.value as SortOrder)}>
-          <option value="desc">新着順</option>
-          <option value="asc">古い順</option>
-        </select>
-        <button type="submit" disabled={loading}>検索</button>
-      </form>
-      <div style={{ marginTop: '1.5rem' }}>
-        {questions !== null && questions.length === 0 ? (
-          <p>未回答の質問はありません。</p>
-        ) : questions !== null ? (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th style={thStyle}>タイトル</th>
-                <th style={thStyle}>質問者</th>
-                <th style={thStyle}>質問日時</th>
-                <th style={thStyle}>ステータス</th>
-              </tr>
-            </thead>
-            <tbody>
-              {questions.map((q) => (
-                <tr key={q.id}>
-                  <td style={tdStyle}>
-                    <span
-                      onClick={() => navigate(`/questions/${q.id}`)}
-                      style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
-                    >
-                      {q.title}
-                    </span>
-                  </td>
-                  <td style={tdStyle}>{q.questioner}</td>
-                  <td style={tdStyle}>{formatDate(q.createdAt)}</td>
-                  <td style={tdStyle}>未回答</td>
+    <div>
+      <AppHeader title="回答対象一覧" showBackButton={true} />
+      <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '0 var(--spacing-md)' }}>
+        {error && <ErrorMessage message={error} />}
+        <form onSubmit={handleSearch} style={{ display: 'flex', gap: 'var(--spacing-sm)', marginTop: '1rem', alignItems: 'center' }}>
+          <input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="キーワード"
+            style={{
+              flex: 1,
+              background: 'var(--color-bg-secondary)',
+              border: '0.5px solid var(--color-border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 10px',
+              fontSize: '14px',
+            }}
+          />
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortOrder)}
+            style={{
+              background: 'var(--color-bg-secondary)',
+              border: '0.5px solid var(--color-border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 10px',
+              fontSize: '14px',
+            }}
+          >
+            <option value="desc">新着順</option>
+            <option value="asc">古い順</option>
+          </select>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              background: 'var(--color-primary)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
+              padding: '6px 16px',
+              fontSize: '14px',
+              cursor: 'pointer',
+            }}
+          >
+            検索
+          </button>
+        </form>
+        <div style={{ marginTop: '1.5rem' }}>
+          {questions !== null && questions.length === 0 ? (
+            <p>未回答の質問はありません。</p>
+          ) : questions !== null ? (
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>タイトル</th>
+                  <th style={thStyle}>質問者</th>
+                  <th style={thStyle}>質問日時</th>
+                  <th style={thStyle}>ステータス</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : null}
-      </div>
-      <div style={{ marginTop: '1.5rem' }}>
-        <button type="button" onClick={() => navigate('/')}>戻る</button>
+              </thead>
+              <tbody>
+                {questions.map((q) => (
+                  <tr key={q.id}>
+                    <td style={tdStyle}>
+                      <span
+                        onClick={() => navigate(`/questions/${q.id}`)}
+                        style={{ color: 'var(--color-link)', cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        {q.title}
+                      </span>
+                    </td>
+                    <td style={tdStyle}>{q.questioner}</td>
+                    <td style={tdStyle}>{formatDate(q.createdAt)}</td>
+                    <td style={tdStyle}><StatusBadge status={q.status} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : null}
+        </div>
       </div>
     </div>
   );
@@ -113,6 +146,6 @@ const thStyle: React.CSSProperties = {
 };
 
 const tdStyle: React.CSSProperties = {
-  borderBottom: '1px solid #eee',
+  borderBottom: '0.5px solid var(--color-border)',
   padding: '0.5rem',
 };

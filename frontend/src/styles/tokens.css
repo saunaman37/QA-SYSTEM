@@ -1,0 +1,30 @@
+:root {
+  /* カラー */
+  --color-primary: #1F3864;
+  --color-primary-dark: #152848;
+  --color-primary-light: #E6F1FB;
+
+  --color-answered: #EAF3DE;
+  --color-answered-text: #3B6D11;
+  --color-unanswered: #FAEEDA;
+  --color-unanswered-text: #854F0B;
+
+  --color-danger-bg: #FCEBEB;
+  --color-danger-text: #A32D2D;
+  --color-danger-border: #F09595;
+
+  --color-border: #E0E0E0;
+  --color-bg-secondary: #F8F9FA;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-link: #185FA5;
+
+  /* スペーシング */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
